@@ -1,0 +1,17 @@
+certifi==2022.12.7
+charset-normalizer==3.0.1
+distlib==0.3.6
+filelock==3.10.4
+idna==3.4
+pbr==5.11.1
+platformdirs==3.1.1
+plex2letterboxd @ file:///Users/sam-home/Development/plex2letterboxd
+PlexAPI==4.5.2
+protobuf==4.21.12
+requests==2.28.2
+six==1.16.0
+stevedore==5.0.0
+urllib3==1.26.14
+virtualenv==20.21.0
+virtualenv-clone==0.5.7
+virtualenvwrapper==4.8.4

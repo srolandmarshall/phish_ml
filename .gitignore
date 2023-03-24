@@ -1,0 +1,43 @@
+# .gitignore
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+phish_ml_env/
+bin/
+include/
+lib/
+lib64/
+pyvenv.cfg
+*.pyenv
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# macOS artifacts
+.DS_Store
+
+# Visual Studio Code
+.vscode/
+
+# Data files
+*.sql*
+*.db
+*.csv
+*.tsv
+*.json
+
+# Log files
+*.log
+
+# dotenv
+.env
