@@ -12,7 +12,6 @@ build/
 *.egg
 
 # Virtual environment
-phish_ml_env/
 bin/
 include/
 lib/
