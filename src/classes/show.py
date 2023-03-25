@@ -9,8 +9,7 @@ from sqlalchemy import (
     ForeignKey,
 )
 from sqlalchemy.orm import relationship
-from src.classes.base import Base
-from src.classes.venue import Venue
+from .base import Base
 
 
 class Show(Base):
@@ -23,10 +22,6 @@ class Show(Base):
     updated_at = Column(DateTime, nullable=False)
     remastered = Column(Boolean, default=False)
     sbd = Column(Boolean, default=False)
-    # relate venue to show
-    venue_id = Column(Integer, ForeignKey("venues.id"))
-    venue = relationship("Venue", back_populates="shows")
-    tour_id = Column(Integer, ForeignKey("tours.id"))
     likes_count = Column(Integer, default=0)
     incomplete = Column(Boolean, default=False)
     admin_notes = Column(Text)
@@ -35,6 +30,21 @@ class Show(Base):
     tags_count = Column(Integer, default=0)
     published = Column(Boolean, nullable=False, default=False)
     venue_name = Column(String, nullable=False, default="")
+
+    # relate venue to show
+    venue_id = Column(Integer, ForeignKey("venues.id"))
+    venue = relationship("Venue", back_populates="shows")
+    # relate tour to show
+    tour_id = Column(Integer, ForeignKey("tours.id"))
+    tour = relationship("Tour", back_populates="shows")
+
+    # taper notes contains the setlist in an ordered list. Extract each of these into a list
+    def setlist(self):
+        lines = self.taper_notes.split("\n")
+        # if line starts with one or more digits and is followed by a period, it's a setlist item
+        setlist = [line for line in lines if line.split(".")[0].isdigit()]
+        # drop the \r and the setlist number
+        return [line.split(".", 1)[1].strip() for line in setlist]
 
     def __repr__(self):
         # format is Date as Month DD, YYYY - Venue Name - Venue City, Venue State
