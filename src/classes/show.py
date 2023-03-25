@@ -10,6 +10,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from .base import Base
+from .associations import songs_tracks
 
 
 class Show(Base):
@@ -40,6 +41,15 @@ class Show(Base):
     tour = relationship("Tour", back_populates="shows")
     # relate track to show
     tracks = relationship("Track", back_populates="show")
+    # relate songs to show
+    songs = relationship(
+        "Song",
+        secondary=songs_tracks,
+        primaryjoin="Show.id == songs_tracks.c.track_id",
+        secondaryjoin="Song.id == songs_tracks.c.song_id",
+        back_populates="shows",
+        overlaps="tracks,song",
+    )
 
     # taper notes contains the setlist in an ordered list. Extract each of these into a list
     def setlist(self):
