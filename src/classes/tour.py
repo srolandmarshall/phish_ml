@@ -20,5 +20,4 @@ class Tour(Base):
     shows = relationship("Show", back_populates="tour")
 
     def __repr__(self):
-        # format is Tour Name
         return f"{self.name}"
