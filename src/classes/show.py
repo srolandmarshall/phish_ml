@@ -23,8 +23,9 @@ class Show(Base):
     updated_at = Column(DateTime, nullable=False)
     remastered = Column(Boolean, default=False)
     sbd = Column(Boolean, default=False)
+    # relate venue to show
     venue_id = Column(Integer, ForeignKey("venues.id"))
-    venue = relationship("Venue", back_populates="venue_shows")
+    venue = relationship("Venue", back_populates="shows")
     tour_id = Column(Integer, ForeignKey("tours.id"))
     likes_count = Column(Integer, default=0)
     incomplete = Column(Boolean, default=False)
@@ -36,5 +37,5 @@ class Show(Base):
     venue_name = Column(String, nullable=False, default="")
 
     def __repr__(self):
-        # format is Date as Month DD, YYYY - Venue Name
-        return f"{self.date.strftime('%B %d, %Y')} - {self.venue_name}"
+        # format is Date as Month DD, YYYY - Venue Name - Venue City, Venue State
+        return f"{self.date.strftime('%B %d, %Y')} - {self.venue_name} - {self.venue.city}, {self.venue.state}"

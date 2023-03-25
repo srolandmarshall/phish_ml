@@ -19,7 +19,8 @@ class Venue(Base):
     longitude = Column(Float)
     abbrev = Column(String(255))
 
-    shows = relationship("Show", back_populates="venue_shows")
+    # relate to show
+    shows = relationship("Show", back_populates="venue")
 
     def __repr__(self):
         return f"Venue(id={self.id}, name='{self.name}', city='{self.city}', state='{self.state}', country='{self.country}', slug='{self.slug}')"
