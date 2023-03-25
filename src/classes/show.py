@@ -30,6 +30,7 @@ class Show(Base):
     tags_count = Column(Integer, default=0)
     published = Column(Boolean, nullable=False, default=False)
     venue_name = Column(String, nullable=False, default="")
+    setlist = Column(Text)
 
     # relate venue to show
     venue_id = Column(Integer, ForeignKey("venues.id"))
@@ -37,9 +38,14 @@ class Show(Base):
     # relate tour to show
     tour_id = Column(Integer, ForeignKey("tours.id"))
     tour = relationship("Tour", back_populates="shows")
+    # relate track to show
+    tracks = relationship("Track", back_populates="show")
 
     # taper notes contains the setlist in an ordered list. Extract each of these into a list
     def setlist(self):
+        # return an empty list if taper notes is empty
+        if self.taper_notes is None:
+            return []
         lines = self.taper_notes.split("\n")
         setlist = [line for line in lines if line.split(".")[0].isdigit()]
         return [line.split(".", 1)[1].strip() for line in setlist]
