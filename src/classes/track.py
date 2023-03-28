@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Text, Float, JSON
 from sqlalchemy.orm import relationship
 from .base import Base
-from .associations import songs_tracks
 
 
 class Track(Base):
@@ -30,8 +29,16 @@ class Track(Base):
 
     # relate to song
     song = relationship(
-        "Song", secondary=songs_tracks, uselist=False, back_populates="tracks"
+        "Song",
+        secondary="songs_tracks",
+        primaryjoin="Track.id == SongTrack.track_id",
+        secondaryjoin="Song.id == SongTrack.song_id",
+        back_populates="tracks",
+        uselist=False,
     )
+
+    # relate to songtracks
+    songtracks = relationship("SongTrack", back_populates="track", viewonly=True)
 
     def __repr__(self):
         return f"{self.title}"
