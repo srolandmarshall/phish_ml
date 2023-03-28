@@ -12,6 +12,7 @@ from sqlalchemy.orm import relationship
 from .base import Base
 from .songtrack import SongTrack
 from .track import Track
+import requests
 
 
 class Show(Base):
@@ -58,12 +59,15 @@ class Show(Base):
 
     # taper notes contains the setlist in an ordered list. Extract each of these into a list
     def setlist(self):
-        # return an empty list if taper notes is empty
-        if self.taper_notes is None:
-            return []
-        lines = self.taper_notes.split("\n")
-        setlist = [line for line in lines if line.split(".")[0].isdigit()]
-        return [line.split(".", 1)[1].strip() for line in setlist]
+        date_str = self.date.strftime("%Y-%m-%d")
+        url = f"https://api.phish.net/v5/setlists/showdate/{date_str}.json?apikey=9A7B24532826F75CFBA9"
+        response = requests.get(url)
+        data = response.json()
+        songs_data = data["data"]
+        # songs_data is a list of dictionaries, in JSON format
+        songs = [song["song"] + song["trans_mark"] for song in songs_data]
+        # join songs with no other characters
+        return "".join(songs)
 
     def __repr__(self):
         return f"{self.date.strftime('%B %d, %Y')} - {self.venue_name} - {self.venue.city}, {self.venue.state}"
