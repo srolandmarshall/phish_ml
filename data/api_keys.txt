@@ -1,2 +1,0 @@
-The API key for application "srm" is: 9A7B24532826F75CFBA9
-The Public key for application "srm" is: 53042F5790C78AEEF0E4
