@@ -44,7 +44,9 @@ class Show(Base):
     tour = relationship("Tour", back_populates="shows")
 
     # relate tracks to show
-    tracks = relationship("Track", back_populates="show")
+    tracks = relationship(
+        "Track", back_populates="show", order_by="Track.position.asc()"
+    )
 
     # relate songs to show via songtracks and tracks
     songs = relationship(
@@ -55,6 +57,7 @@ class Show(Base):
         "Track.show_id == Show.id)",
         back_populates="shows",
         viewonly=True,
+        order_by="Track.position.asc()",
     )
 
     # taper notes contains the setlist in an ordered list. Extract each of these into a list
